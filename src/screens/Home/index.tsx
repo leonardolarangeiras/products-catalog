@@ -1,11 +1,8 @@
-import * as S from './styles'
+import * as S from './styles';
+import { getProducts } from '../../services';
 
-const Home = () => {
-  return(
-    <S.DivHome>
-      O inicio de um catalogo
-    </S.DivHome>
-  );
+function Home() {
+  return <S.DivHome>{getProducts()}</S.DivHome>;
 }
 
 export default Home;
