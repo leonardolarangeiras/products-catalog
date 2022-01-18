@@ -1,10 +1,10 @@
-export default async function getProducts() {
-  fetch(`${process.env.REACT_APP_API_ENDPOINT}`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-  }).then(response => {
-    console.log('response');
-    console.log(response);
-  });
+import Axios from 'axios';
+
+export default async function products() {
+  try {
+    const response = await Axios.get(`${process.env.REACT_APP_API_ENDPOINT}`);
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 }
