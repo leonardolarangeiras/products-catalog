@@ -8,7 +8,9 @@ import {
   Button,
   Pagination,
   Grid,
+  Fab,
 } from '@mui/material';
+import { ShoppingCart } from '@mui/icons-material';
 import * as S from './styles';
 import products from '../../services';
 
@@ -21,9 +23,15 @@ type Product = {
   createdAt: string;
 };
 
+type ProductsCart = {
+  product: Product;
+  number: number;
+};
+
 function Home() {
   const [productData, setProductData] = useState<Product[]>([]);
   const [productList, setProductList] = useState<Product[]>([]);
+  const [productsInCart, setProductsInCart] = useState<ProductsCart[]>([]);
   const [page, setPage] = useState<number>(1);
 
   const getProduct = async () => {
@@ -46,7 +54,7 @@ function Home() {
     const urlImage = product.image.replace('.com', '.com.br');
 
     return (
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 350 }}>
         <CardMedia
           component="img"
           height="140"
@@ -57,7 +65,14 @@ function Home() {
           <Typography variant="h5">{product.name}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">add to list</Button>
+          <Button
+            size="small"
+            onClick={() => {
+              setProductsInCart([...productsInCart, { product, number: 1 }]);
+            }}
+          >
+            add to list
+          </Button>
         </CardActions>
       </Card>
     );
@@ -74,28 +89,37 @@ function Home() {
   }, [productData]);
 
   return (
-    <S.DivHome>
-      <Pagination
-        count={Math.ceil(productData.length / 20)}
-        page={page}
-        onChange={handleChangePagination}
-      />
-      <Grid
-        container
-        spacing={2}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {productList &&
-          productList.length > 0 &&
-          productList.map(product => (
-            <Grid xs={3} item>
-              {productCard(product)}
-            </Grid>
-          ))}
-      </Grid>
-    </S.DivHome>
+    <>
+      <S.DivHome>
+        <Pagination
+          count={Math.ceil(productData.length / 20)}
+          page={page}
+          onChange={handleChangePagination}
+        />
+        <Grid
+          container
+          spacing={2}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {productList &&
+            productList.length > 0 &&
+            productList.map(product => (
+              <Grid xs={3} item alignItems="center">
+                {productCard(product)}
+              </Grid>
+            ))}
+        </Grid>
+      </S.DivHome>
+      {productsInCart.length > 0 && (
+        <div style={{ position: 'fixed', bottom: 20, right: 20 }}>
+          <Fab onClick={() => console.log(productsInCart)} color="primary">
+            <ShoppingCart />
+          </Fab>
+        </div>
+      )}
+    </>
   );
 }
 
