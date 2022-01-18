@@ -1,5 +1,8 @@
 import { Route } from 'react-router-dom';
 
-const UnprotectedRoute = ({ ...routeProps }) => <Route {...routeProps} />;
+function UnprotectedRoute({ ...routeProps }) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <Route {...routeProps} />;
+}
 
 export default UnprotectedRoute;

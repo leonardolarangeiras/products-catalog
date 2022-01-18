@@ -1,9 +1,9 @@
-import Home from '../screens/Home'
-import UnprotectedRoute from './unprotected'
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Home from '../screens/Home';
+import UnprotectedRoute from './unprotected';
 
-const Routes = () => {
-  return(
+function Routes() {
+  return (
     <Router>
       <Switch>
         <UnprotectedRoute path="/" exact component={Home} />
