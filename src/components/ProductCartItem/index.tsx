@@ -1,4 +1,14 @@
-import { Avatar, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Grid,
+  IconButton,
+  Typography,
+  ButtonGroup,
+  Button,
+} from '@mui/material';
+import { Delete, Remove, Add } from '@mui/icons-material';
+import { useContext } from 'react';
+import ProductsContext from '../../contexts/ProductContext';
 
 type Product = {
   id: string;
@@ -18,6 +28,39 @@ function ProductCartItem({ number, product }: ProductCardType) {
   // correção realizada pois a 'API' está retornando a URL sem o '.br'
   const urlImage = product.image.replace('.com', '.com.br');
   const totalValue = number * parseFloat(product.price);
+
+  const { productsInCart, setProductsInCart } = useContext(ProductsContext);
+
+  const handleRemoveProduct = () => {
+    const newProductsInCart = productsInCart.filter(productInCart => {
+      return productInCart.product.id !== product.id;
+    });
+
+    setProductsInCart([...newProductsInCart]);
+  };
+
+  const handleChangeQuantity = (type: string) => {
+    const newProductsInCart = productsInCart
+      .map(productInCart => {
+        let productInCartCopy = { ...productInCart };
+
+        if (productInCartCopy.product.id === product.id) {
+          if (type === 'add') {
+            productInCartCopy.number += 1;
+          } else if (productInCartCopy.number > 1) {
+            productInCartCopy.number -= 1;
+          } else {
+            productInCartCopy = null;
+          }
+        }
+
+        return productInCartCopy;
+      })
+      .filter(productInCart => productInCart);
+
+    setProductsInCart([...newProductsInCart]);
+  };
+
   return (
     <Grid
       container
@@ -33,7 +76,7 @@ function ProductCartItem({ number, product }: ProductCardType) {
         spacing={2}
         direction="row"
         alignItems="center"
-        xs={6}
+        xs={5}
       >
         <Grid item>
           <Avatar alt={product.name} src={urlImage} />
@@ -43,8 +86,8 @@ function ProductCartItem({ number, product }: ProductCardType) {
         </Grid>
       </Grid>
 
-      <Grid item xs={5}>
-        <Typography>{`$ ${product.price} x ${number} un`}</Typography>
+      <Grid item xs={3}>
+        <Typography>{`Value: $ ${product.price} x ${number} UN`}</Typography>
       </Grid>
 
       <Grid
@@ -54,13 +97,52 @@ function ProductCartItem({ number, product }: ProductCardType) {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        xs={1}
+        xs={4}
       >
-        <Grid item>
-          <Typography>Total $</Typography>
+        <Grid item xs={2}>
+          <Typography>Total:</Typography>
         </Grid>
-        <Grid item>
-          <Typography>{totalValue.toFixed(2)}</Typography>
+
+        <Grid item xs={2}>
+          <Typography>{`$ ${totalValue.toFixed(2)}`}</Typography>
+        </Grid>
+
+        <Grid
+          item
+          container
+          spacing={2}
+          direction="row"
+          alignItems="center"
+          xs={4}
+        >
+          <Grid item>
+            <ButtonGroup>
+              <Button
+                onClick={() => {
+                  handleChangeQuantity('remove');
+                }}
+              >
+                <Remove fontSize="small" />
+              </Button>
+              <Button
+                onClick={() => {
+                  handleChangeQuantity('add');
+                }}
+              >
+                <Add fontSize="small" />
+              </Button>
+            </ButtonGroup>
+          </Grid>
+
+          <Grid item>
+            <IconButton
+              onClick={() => {
+                handleRemoveProduct();
+              }}
+            >
+              <Delete color="error" />
+            </IconButton>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
