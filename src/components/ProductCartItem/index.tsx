@@ -63,6 +63,7 @@ function ProductCartItem({ number, product }: ProductCardType) {
 
   return (
     <Grid
+      item
       container
       spacing={2}
       direction="row"
@@ -113,6 +114,7 @@ function ProductCartItem({ number, product }: ProductCardType) {
           spacing={2}
           direction="row"
           alignItems="center"
+          justifyContent="flex-end"
           xs={4}
         >
           <Grid item>
