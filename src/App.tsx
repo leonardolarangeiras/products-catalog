@@ -1,8 +1,13 @@
 import React from 'react';
 import Routes from './routes';
+import ContextProvider from './contexts';
 
 function App() {
-  return <Routes />;
+  return (
+    <ContextProvider>
+      <Routes />
+    </ContextProvider>
+  );
 }
 
 export default App;

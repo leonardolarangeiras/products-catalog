@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import {
   Card,
   CardMedia,
@@ -13,8 +13,10 @@ import {
 } from '@mui/material';
 import { Search, ShoppingCart } from '@mui/icons-material';
 import { DebounceInput } from 'react-debounce-input';
+import { useHistory } from 'react-router-dom';
 import products from '../../services';
 import Pagination from '../../components/Pagination';
+import ProductsContext from '../../contexts/ProductContext';
 
 type Product = {
   id: string;
@@ -25,16 +27,12 @@ type Product = {
   createdAt: string;
 };
 
-type ProductsCart = {
-  product: Product;
-  number: number;
-};
-
 function Home() {
+  const history = useHistory();
+  const { productsInCart, setProductsInCart } = useContext(ProductsContext);
+
   const [productData, setProductData] = useState<Product[]>([]);
   const [productList, setProductList] = useState<Product[]>([]);
-
-  const [productsInCart, setProductsInCart] = useState<ProductsCart[]>([]);
 
   const [page, setPage] = useState<number>(1);
   const [searchingProducts, setSearchingProducts] = useState<boolean>(false);
@@ -162,14 +160,18 @@ function Home() {
                 </InputAdornment>
               ),
             }}
+            size="small"
             element={TextField}
           />
         </Grid>
 
         <Grid item>
           <Button
-            disabled={productsInCart.length === 0}
             startIcon={<ShoppingCart />}
+            disabled={productsInCart.length === 0}
+            onClick={() => {
+              history.push('/cart');
+            }}
           >
             Cart
           </Button>
