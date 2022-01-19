@@ -59,7 +59,11 @@ function Cart() {
           <Grid item container direction="column">
             {productsInCart.length > 0 &&
               productsInCart.map(({ number, product }) => (
-                <ProductCartItem number={number} product={product} />
+                <ProductCartItem
+                  key={product.id}
+                  number={number}
+                  product={product}
+                />
               ))}
           </Grid>
 
