@@ -127,7 +127,14 @@ function Home() {
         {productList &&
           productList.length > 0 &&
           productList.map(product => (
-            <Grid xl={3} md={6} sm={12} item alignItems="center">
+            <Grid
+              xl={3}
+              md={6}
+              sm={12}
+              key={product.id}
+              item
+              alignItems="center"
+            >
               <ProductHomeItem product={product} />
             </Grid>
           ))}
