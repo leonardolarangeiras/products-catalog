@@ -77,7 +77,7 @@ function ProductCartItem({ number, product }: ProductCardType) {
         spacing={2}
         direction="row"
         alignItems="center"
-        xs={5}
+        xs={4}
       >
         <Grid item>
           <Avatar alt={product.name} src={urlImage} />
@@ -93,18 +93,18 @@ function ProductCartItem({ number, product }: ProductCardType) {
 
       <Grid
         item
+        xs={5}
         container
         spacing={2}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        xs={4}
       >
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Typography>Total:</Typography>
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <Typography>{`$ ${totalValue.toFixed(2)}`}</Typography>
         </Grid>
 
@@ -115,7 +115,7 @@ function ProductCartItem({ number, product }: ProductCardType) {
           direction="row"
           alignItems="center"
           justifyContent="flex-end"
-          xs={4}
+          xs={6}
         >
           <Grid item>
             <ButtonGroup>
